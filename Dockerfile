@@ -13,6 +13,9 @@ RUN npm install
 # Bundle app source
 COPY . .
 
+# Copy .env file
+COPY .env ./
+
 # Expose port 8000
 EXPOSE 8000
 
