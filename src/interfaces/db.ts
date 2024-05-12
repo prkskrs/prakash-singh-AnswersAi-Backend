@@ -14,6 +14,7 @@ export interface Question {
   _id?: ObjectId;
   userId: ObjectId;
   content: string;
+  answer: string;
   createdAt?: Date;
   updatedAt?: Date;
 }

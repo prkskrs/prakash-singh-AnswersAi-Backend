@@ -52,9 +52,30 @@ const userRoutesSchemas = {
   },
 };
 
+const questionRoutesSchemas = {
+  getAnswer: {
+    headers: Joi.object().keys({
+      "x-request-token": Joi.string().required().messages({
+        "string.empty": "Invalid request",
+      }),
+    }),
+    body: Joi.object().keys({
+      question: Joi.string().required(),
+    }),
+  },
+  getMyQA: {
+    headers: Joi.object().keys({
+      "x-request-token": Joi.string().required().messages({
+        "string.empty": "Invalid request",
+      }),
+    }),
+  },
+};
+
 const requestSchemas = {
   authRoutesSchemas,
   userRoutesSchemas,
+  questionRoutesSchemas,
 };
 
 export default requestSchemas;

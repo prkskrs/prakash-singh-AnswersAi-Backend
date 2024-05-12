@@ -3,6 +3,8 @@ import Constants from "../constants/constants";
 import { Database } from "../database/database";
 import { hashPassword } from "../util/password";
 import { Inject, Service } from "typedi";
+import { getDecodedDataForAccessToken } from "../util/auth";
+import { ObjectId } from "mongodb";
 @Service()
 export default class UserControllers {
   @Inject()
@@ -77,5 +79,66 @@ export default class UserControllers {
         },
       },
     });
+  };
+
+  // generate answer
+  public getMyAllQA = async (req: Request, res: Response) => {
+    try {
+      const userId = req?.params?.userId;
+      const requestTokenData = getDecodedDataForAccessToken(req);
+      if (!requestTokenData) {
+        return res.status(401).json({
+          success: false,
+          message: "Unauthorized",
+        });
+      }
+
+      const { userId: uid } = requestTokenData;
+      if (!userId) {
+        return res.status(401).json({
+          success: false,
+          message: "Unauthorized",
+        });
+      }
+
+      console.log("userId", userId);
+      console.log("uid", uid);
+
+      if (uid !== userId) {
+        return res.status(401).json({
+          success: false,
+          message: "Unauthorized",
+        });
+      }
+
+      const questions = await this.database.get(
+        Constants.COLLECTIONS.QUESTION,
+        {
+          userId: new ObjectId(userId),
+        },
+      );
+
+      const questionsAnswers = questions.map((question) => ({
+        _id: question?._id,
+        question: question?.content,
+        answer: question?.answer,
+      }));
+
+      return res.status(200).json({
+        success: true,
+        message: "Questions fetched successfully",
+        data: { questionsAnswers },
+      });
+    } catch (error) {
+      console.error(
+        "Error generating answer:",
+        error.response?.data || error.message,
+      );
+      return res.status(500).json({
+        success: false,
+        message: "Error generating answer",
+        error: error.response?.data || error.message,
+      });
+    }
   };
 }

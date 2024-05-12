@@ -7,6 +7,7 @@ import cors from "cors";
 import logger from "morgan";
 import authRoutes from "./routes/auth.routes";
 import userRoutes from "./routes/user.routes";
+import questionRoutes from "./routes/question.routes";
 
 const app: Express = express();
 const port = process.env.PORT;
@@ -37,6 +38,7 @@ app.get("/status", (req: Request, res: Response) => {
 
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
+app.use("/api/questions", questionRoutes);
 
 app.listen(port, () => {
   console.log(`⚡️[server]: Server is running at http://localhost:${port}`);
