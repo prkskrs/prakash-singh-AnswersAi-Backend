@@ -7,3 +7,9 @@
 [Done] User login endpoint. <br>
 [Done] User logout endpoint.<br>
 [Done] Refresh access token endpoint.<br>
+
+
+
+Command To Run Dockerfile
+- `docker build -t prkskrs-test-backend .`
+- `docker run -d --env-file .env -p 8000:8000 prkskrs-test-backend`
