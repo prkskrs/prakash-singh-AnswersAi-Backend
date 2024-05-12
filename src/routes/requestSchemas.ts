@@ -70,6 +70,13 @@ const questionRoutesSchemas = {
       }),
     }),
   },
+  getQAById: {
+    headers: Joi.object().keys({
+      "x-request-token": Joi.string().required().messages({
+        "string.empty": "Invalid request",
+      }),
+    }),
+  },
 };
 
 const requestSchemas = {

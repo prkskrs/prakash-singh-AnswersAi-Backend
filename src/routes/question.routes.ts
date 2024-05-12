@@ -17,4 +17,18 @@ router.post(
   questionControllers.getAnswer,
 );
 
+// get question and answer by questionId
+router.get(
+  "/:questionId",
+  RequestValidator(
+    requestSchemas.questionRoutesSchemas.getQAById.headers,
+    "headers",
+  ),
+  RequestValidator(
+    requestSchemas.questionRoutesSchemas.getAnswer.headers,
+    "headers",
+  ),
+  questionControllers.getQAById,
+);
+
 export default router;

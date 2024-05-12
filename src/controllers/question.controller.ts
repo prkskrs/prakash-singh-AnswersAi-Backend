@@ -75,4 +75,62 @@ export default class QuestionControllers {
       });
     }
   };
+
+  public getQAById = async (req: Request, res: Response) => {
+    try {
+      const { questionId } = req?.params;
+      const requestTokenData = getDecodedDataForAccessToken(req);
+      if (!requestTokenData) {
+        return res.status(401).json({
+          success: false,
+          message: "Unauthorized",
+        });
+      }
+
+      const { userId } = requestTokenData;
+      if (!userId) {
+        return res.status(401).json({
+          success: false,
+          message: "Unauthorized",
+        });
+      }
+
+      const question = await this.database.getById(
+        Constants.COLLECTIONS.QUESTION,
+        questionId,
+      );
+
+      if (!question) {
+        return res.status(404).json({
+          success: false,
+          message: "Question not found",
+        });
+      }
+
+      if (question.userId.toString() !== userId) {
+        return res.status(401).json({
+          success: false,
+          message: "Unauthorized",
+        });
+      }
+
+      return res.status(200).json({
+        success: true,
+        message: "Question fetched successfully",
+        data: {
+          question,
+        },
+      });
+    } catch (error) {
+      console.error(
+        "Error fetching question:",
+        error.response?.data || error.message,
+      );
+      return res.status(500).json({
+        success: false,
+        message: "Error fetching question",
+        error: error.response?.data || error.message,
+      });
+    }
+  };
 }
