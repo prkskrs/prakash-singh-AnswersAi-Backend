@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken";
-
-export const createAcessToken = (payload: any) => {
+import { Request } from "express";
+export const createAccessToken = (payload: any) => {
   payload = {
     ...payload,
     type: "access",
@@ -39,4 +39,97 @@ export const createShortLivedToken = (payload: any) => {
   return jwt.sign(payload, process.env.JWT_SECRET, {
     expiresIn: "15m",
   });
+};
+
+export const getDecodedDataForShortLivedToken = (req: Request) => {
+  const requestToken = req.headers["x-request-token"];
+  if (!requestToken) {
+    return {
+      success: false,
+      message: "Invalid request",
+    };
+  }
+
+  const requestTokenData = verifyToken(requestToken as string);
+  if (!requestTokenData) {
+    return {
+      success: false,
+      message: "Invalid request",
+    };
+  }
+
+  if (
+    !requestTokenData.type ||
+    !requestTokenData.userId ||
+    requestTokenData.type != "short-lived"
+  ) {
+    return {
+      success: false,
+      message: "Invalid request",
+    };
+  }
+
+  return requestTokenData;
+};
+
+export const getDecodedDataForAccessToken = (req: Request) => {
+  const requestToken = req.headers["x-request-token"];
+  if (!requestToken) {
+    return {
+      success: false,
+      message: "Invalid request",
+    };
+  }
+
+  const requestTokenData = verifyToken(requestToken as string);
+  if (!requestTokenData) {
+    return {
+      success: false,
+      message: "Invalid request",
+    };
+  }
+
+  if (
+    !requestTokenData.type ||
+    !requestTokenData.userId ||
+    requestTokenData.type != "access"
+  ) {
+    return {
+      success: false,
+      message: "Invalid request",
+    };
+  }
+
+  return requestTokenData;
+};
+
+export const getDecodedDataForRefreshToken = (req: Request) => {
+  const requestToken = req?.body.refreshToken;
+  if (!requestToken) {
+    return {
+      success: false,
+      message: "Invalid request",
+    };
+  }
+
+  const requestTokenData = verifyToken(requestToken as string, "refresh");
+  if (!requestTokenData) {
+    return {
+      success: false,
+      message: "Invalid request",
+    };
+  }
+
+  if (
+    !requestTokenData.type ||
+    !requestTokenData.userId ||
+    requestTokenData.type != "refresh"
+  ) {
+    return {
+      success: false,
+      message: "Invalid request",
+    };
+  }
+
+  return requestTokenData;
 };

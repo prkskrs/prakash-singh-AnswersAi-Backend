@@ -8,7 +8,7 @@ const authRoutesSchemas = {
       }),
     }),
     body: Joi.object().keys({
-      phone: Joi.string().required().min(10).max(10),
+      email: Joi.string().email().required(),
       password: Joi.string().required(),
     }),
   },
@@ -19,9 +19,28 @@ const authRoutesSchemas = {
       email: Joi.string().email().required(),
     }),
   },
+  logout: {
+    headers: Joi.object().keys({
+      "x-request-token": Joi.string().required().messages({
+        "string.empty": "Invalid request",
+      }),
+    }),
+  },
+  getRefreshToken: {
+    body: Joi.object().keys({
+      refreshToken: Joi.string().required(),
+    }),
+  },
 };
 
 const userRoutesSchemas = {
+  getMe: {
+    headers: Joi.object().keys({
+      "x-request-token": Joi.string().required().messages({
+        "string.empty": "Invalid request",
+      }),
+    }),
+  },
   updateMe: {
     body: Joi.object().keys({
       user: Joi.object({

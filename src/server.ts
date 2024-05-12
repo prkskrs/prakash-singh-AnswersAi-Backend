@@ -1,11 +1,12 @@
 import "reflect-metadata";
 import dotenv from "dotenv";
 dotenv.config();
-import express, { Express, Request, Response } from "express";
+import express, { Express, NextFunction, Request, Response } from "express";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import logger from "morgan";
 import authRoutes from "./routes/auth.routes";
+import userRoutes from "./routes/user.routes";
 
 const app: Express = express();
 const port = process.env.PORT;
@@ -17,7 +18,6 @@ app.use(cookieParser());
 app.use(
   logger("short", {
     skip: (req: Request, res: Response) => {
-      console.log(res);
       return req.originalUrl === "/status";
     },
   }),
@@ -35,13 +35,19 @@ app.get("/status", (req: Request, res: Response) => {
   res.status(200).end();
 });
 
-app.use("/api/users", authRoutes);
+app.use("/api/auth", authRoutes);
+app.use("/api/users", userRoutes);
 
 app.listen(port, () => {
   console.log(`⚡️[server]: Server is running at http://localhost:${port}`);
 });
 
-app.use(function onError(error, req, res, next) {
+app.use(function onError(
+  error: any,
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) {
   const { status = 500 } = error;
   const is_error_array = Array.isArray(error);
   console.log({ url: req.url, body: req.body, error });

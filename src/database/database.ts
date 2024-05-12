@@ -1,5 +1,5 @@
 import { MongoClient, Db, ObjectId, Filter } from "mongodb";
-import {  User, Question } from "../interfaces/db";
+import { User, Question } from "../interfaces/db";
 console.log("Database Using Now : " + process.env.DATABASE_NAME);
 
 const uri =

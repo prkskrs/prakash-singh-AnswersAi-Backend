@@ -7,16 +7,24 @@ import AuthControllers from "../controllers/auth.controller";
 const authControllers = Container.get(AuthControllers);
 
 router.post(
-  "/",
-  RequestValidator(requestSchemas.authRoutesSchemas.signup.body, "body"),
-  authControllers.signUp,
+  "/login",
+  RequestValidator(requestSchemas.authRoutesSchemas.login.body, "body"),
+  authControllers.login,
 );
 
 router.post(
-  "/",
-  RequestValidator(requestSchemas.authRoutesSchemas.login.body, "body"),
-  RequestValidator(requestSchemas.authRoutesSchemas.login.headers, "headers"),
-  // authControllers.login,
+  "/logout",
+  RequestValidator(requestSchemas.authRoutesSchemas.logout.headers, "headers"),
+  authControllers.logout,
+);
+
+router.post(
+  "/refresh",
+  RequestValidator(
+    requestSchemas.authRoutesSchemas.getRefreshToken.body,
+    "body",
+  ),
+  authControllers.getRefreshToken,
 );
 
 export default router;
