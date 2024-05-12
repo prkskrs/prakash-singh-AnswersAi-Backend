@@ -18,3 +18,6 @@
 
 <h2>API Postman Documentation</h2>
 - https://documenter.getpostman.com/view/20593869/2sA3JNZzw3
+
+<h2>Added Design Document</h2>
+https://docs.google.com/document/d/1p_Hgg3qRfnmiFfSjcO5Kh1_1XVq98eGioPZd_q3rnZ8/edit?addon_store
