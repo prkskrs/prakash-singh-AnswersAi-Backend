@@ -14,3 +14,7 @@
 
 - `docker build -t answerai-test-backend .`
 - `docker run -d --env-file .env -p 8000:8000 answerai-test-backend`
+
+
+<h2>API Postman Documentation</h2>
+- https://documenter.getpostman.com/view/20593869/2sA3JNZzw3

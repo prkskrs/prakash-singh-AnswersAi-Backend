@@ -1,0 +1,273 @@
+{
+	"info": {
+		"_postman_id": "f8bb21ab-cd72-44aa-8534-f19e81d05c62",
+		"name": "AnswersAi-Backend",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "20593869",
+		"_collection_link": "https://prkskrs-team.postman.co/workspace/Team-Workspace~24500fe1-a888-429e-8324-fad7d41d9fe7/collection/20593869-f8bb21ab-cd72-44aa-8534-f19e81d05c62?action=share&source=collection_link&creator=20593869"
+	},
+	"item": [
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "signup",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\":\"naman\",\n    \"email\": \"naman@gmail.com\",\n    \"password\": \"123456\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/users/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"users",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"postman.setEnvironmentVariable(\"token\", jsonData.data.token);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\":\"qweqwe@gmail.com\",\n    \"password\": \"123456\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/auth/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "logout",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"postman.setEnvironmentVariable(\"token\", jsonData.data.token);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/api/auth/logout",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"auth",
+								"logout"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getUserProfile",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/api/users/663fcca2f304bf4bb8d51f5d",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"users",
+								"663fcca2f304bf4bb8d51f5d"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getRefreshToken",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"refreshToken\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NjQwNzUxYzY1ZDI5MjM0YWVhODgyNWEiLCJ0eXBlIjoicmVmcmVzaCIsImlhdCI6MTcxNTUwMTYwNywiZXhwIjoxNzE2MTA2NDA3fQ.J_8br7UZ0tVEHg5rC8S64ItccMfh4Pd3AA0nOsNo4kA\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/auth/refresh",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"auth",
+								"refresh"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getMyAllQA",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-request-token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NjQwNzUxYzY1ZDI5MjM0YWVhODgyNWEiLCJ0eXBlIjoiYWNjZXNzIiwiaWF0IjoxNzE1NTE0NDkwLCJleHAiOjE3MTU2MDA4OTB9.aWm8YTEmIKJgMXulMCbiXG7MG8y7fds63Vz0i_C571w"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8000/api/users/6640751c65d29234aea8825a/questions",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"users",
+								"6640751c65d29234aea8825a",
+								"questions"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Questions",
+			"item": [
+				{
+					"name": "getAnswer",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-request-token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NjQwNzUxYzY1ZDI5MjM0YWVhODgyNWEiLCJ0eXBlIjoiYWNjZXNzIiwiaWF0IjoxNzE1NTE0NDkwLCJleHAiOjE3MTU2MDA4OTB9.aWm8YTEmIKJgMXulMCbiXG7MG8y7fds63Vz0i_C571w"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"question\":\"hpw are you\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/questions/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"questions",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getQAById",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-request-token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NjQwNzUxYzY1ZDI5MjM0YWVhODgyNWEiLCJ0eXBlIjoiYWNjZXNzIiwiaWF0IjoxNzE1NTE0NDkwLCJleHAiOjE3MTU2MDA4OTB9.aWm8YTEmIKJgMXulMCbiXG7MG8y7fds63Vz0i_C571w"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8000/api/questions/6640af62909f311250fea12b",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"questions",
+								"6640af62909f311250fea12b"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
