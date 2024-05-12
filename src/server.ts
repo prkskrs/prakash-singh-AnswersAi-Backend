@@ -24,7 +24,7 @@ app.use(
   }),
 );
 
-app.get("/", (req: Request, res: Response) => {
+app.get("/", (res: Response) => {
   return res.status(200).send({
     uptime: process.uptime(),
     message: "Prkskrs's API health check :: GOOD",
