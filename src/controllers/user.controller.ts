@@ -11,74 +11,84 @@ export default class UserControllers {
   private database: Database;
 
   public signUp = async (req: Request, res: Response) => {
-    // check if user already exists
-    const existingUserDoc = await this.database.getOne(
-      Constants.COLLECTIONS.USER,
-      {
-        email: req?.body?.email,
-      },
-    );
-
-    if (existingUserDoc) {
-      return res.status(409).json({
-        success: false,
-        message: "User already exists",
-      });
-    }
-
-    const user = {
-      name: req?.body?.name,
-      email: req?.body?.email,
-      password: hashPassword(req?.body?.password),
-    };
-
-    const userDoc = await this.database.add(Constants.COLLECTIONS.USER, {
-      ...user,
-    });
-
-    user.password = undefined;
-    return res.status(200).json({
-      success: true,
-      message: "User created successfully",
-      data: {
-        user: {
-          ...user,
-          _id: userDoc.insertedId,
+    try {
+      // check if user already exists
+      const existingUserDoc = await this.database.getOne(
+        Constants.COLLECTIONS.USER,
+        {
+          email: req?.body?.email,
         },
-      },
-    });
+      );
+
+      if (existingUserDoc) {
+        return res.status(409).json({
+          success: false,
+          message: "User already exists",
+        });
+      }
+
+      const user = {
+        name: req?.body?.name,
+        email: req?.body?.email,
+        password: hashPassword(req?.body?.password),
+      };
+
+      const userDoc = await this.database.add(Constants.COLLECTIONS.USER, {
+        ...user,
+      });
+
+      user.password = undefined;
+      return res.status(200).json({
+        success: true,
+        message: "User created successfully",
+        data: {
+          user: {
+            ...user,
+            _id: userDoc.insertedId,
+          },
+        },
+      });
+    } catch (error) {
+      console.log("Error creating user:", error);
+      throw error;
+    }
   };
 
   public getUserProfile = async (req: Request, res: Response) => {
-    const { userId } = req?.params;
+    try {
+      const { userId } = req?.params;
 
-    // check if user exists
-    const existingUserDoc = await this.database.getById(
-      Constants.COLLECTIONS.USER,
-      userId,
-      {
-        name: 1,
-        email: 1,
-      },
-    );
-
-    if (!existingUserDoc) {
-      return res.status(404).json({
-        success: false,
-        message: "User not found",
-      });
-    }
-
-    existingUserDoc.password = undefined;
-    return res.status(200).json({
-      success: true,
-      message: "User profile fetched successfully",
-      data: {
-        user: {
-          ...existingUserDoc,
+      // check if user exists
+      const existingUserDoc = await this.database.getById(
+        Constants.COLLECTIONS.USER,
+        userId,
+        {
+          name: 1,
+          email: 1,
         },
-      },
-    });
+      );
+
+      if (!existingUserDoc) {
+        return res.status(404).json({
+          success: false,
+          message: "User not found",
+        });
+      }
+
+      existingUserDoc.password = undefined;
+      return res.status(200).json({
+        success: true,
+        message: "User profile fetched successfully",
+        data: {
+          user: {
+            ...existingUserDoc,
+          },
+        },
+      });
+    } catch (error) {
+      console.log("Error fetching user profile:", error);
+      throw error;
+    }
   };
 
   // generate answer
@@ -100,9 +110,6 @@ export default class UserControllers {
           message: "Unauthorized",
         });
       }
-
-      console.log("userId", userId);
-      console.log("uid", uid);
 
       if (uid !== userId) {
         return res.status(401).json({
