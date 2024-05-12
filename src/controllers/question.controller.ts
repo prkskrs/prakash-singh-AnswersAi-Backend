@@ -31,8 +31,7 @@ export default class QuestionControllers {
 
       const { question } = req?.body;
       const anthropic = new Anthropic({
-        apiKey:
-          "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", // defaults to process.env["ANTHROPIC_API_KEY"]
+        apiKey: process.env.ANTHROPIC_API_KEY,
       });
 
       const msg = await anthropic.messages.create({
