@@ -1,4 +1,4 @@
-- APIs Implemented<br>
+<h2>APIs Implemented</h2>
 [Done] Accept user question, and return AI-generated answer.<br>
 [Done] Retrieve specific question and answer by question ID.<br>
 [Done] Create a new user account.<br>
@@ -10,6 +10,6 @@
 
 
 
-- Command To Run Dockerfile<br>
+<h2>Command To Run Dockerfile</h2>
 - `docker build -t prkskrs-test-backend .`
 - `docker run -d --env-file .env -p 8000:8000 prkskrs-test-backend`
