@@ -18,7 +18,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(
   logger("short", {
-    skip: (req: Request, res: Response) => {
+    skip: (req: Request) => {
       return req.originalUrl === "/status";
     },
   }),
@@ -32,7 +32,7 @@ app.get("/", (res: Response) => {
   });
 });
 
-app.get("/status", (req: Request, res: Response) => {
+app.get("/status", (res: Response) => {
   res.status(200).end();
 });
 
